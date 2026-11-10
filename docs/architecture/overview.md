@@ -124,12 +124,11 @@ com.personalassistant
 │   ├── ai
 │   ├── research
 │   └── storage
-└── presentation
-    └── rest
-        ├── subject
-        ├── conversation
-        ├── knowledge
-        └── proposal
+└── api
+    ├── subject
+    ├── conversation
+    ├── knowledge
+    └── proposal
 ```
 
 Dependency direction:
@@ -137,7 +136,7 @@ Dependency direction:
 - `domain` has no dependency on Spring, persistence, HTTP or AI providers.
 - `application` depends on domain and defines the ports it needs.
 - `infrastructure` implements those ports and depends inward on application/domain.
-- `presentation` translates HTTP requests/responses and calls application use cases. It does not contain business rules.
-- The frontend communicates only with the API exposed by `presentation`; it never accesses domain objects or the database directly.
+- `api` exposes the backend endpoints, translates HTTP requests/responses and calls application use cases. It does not contain business rules.
+- The frontend communicates only with the API; it never accesses domain objects or the database directly.
 
 This is the selected organization for the initial implementation. Keep the package structure pragmatic: introduce subpackages and abstractions when a domain needs them rather than creating empty layers or speculative interfaces.
