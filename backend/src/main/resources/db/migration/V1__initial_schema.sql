@@ -156,9 +156,13 @@ CREATE TABLE knowledge_sources (
     created_at       TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     CONSTRAINT ck_knowledge_sources_type CHECK (source_type IN ('USER_MESSAGE', 'USER_DOCUMENT')),
     CONSTRAINT ck_knowledge_sources_exactly_one_source CHECK (
-        (source_type = 'USER_MESSAGE' AND message_id IS NOT NULL AND document_id IS NULL)
+        (source_type = 'USER_MESSAGE'
+            AND document_id IS NULL
+            AND (message_id IS NOT NULL OR original_content IS NOT NULL))
         OR
-        (source_type = 'USER_DOCUMENT' AND document_id IS NOT NULL AND message_id IS NULL)
+        (source_type = 'USER_DOCUMENT'
+            AND message_id IS NULL
+            AND (document_id IS NOT NULL OR original_content IS NOT NULL))
     )
 );
 
